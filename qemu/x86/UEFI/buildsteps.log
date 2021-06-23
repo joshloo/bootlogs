@@ -1,0 +1,71 @@
+=================================================================================================
+Build command:
+
+git clone https://github.com/tianocore/edk2
+cd edk2/
+git submodule update --init
+make -C BaseTools
+export EDK_TOOLS_PATH=$HOME/x86/uefi/src/edk2/BaseTools
+. edksetup.sh BaseTools
+gedit Conf/target.txt 
+sudo apt-get install gcc-5
+gedit Conf/target.txt 
+build -DDEBUG_ON_SERIAL_PORT=TRUE -DSECURE_BOOT_ENABLE=TRUE 
+cp  /home/abc/x86/uefi/src/edk2/Build/OvmfX64/DEBUG_GCC5/FV/OVMF.fd ../run-ovmf/bios-debug-securedboot.bin
+
+
+=================================================================================================
+With secured boot...
+
+Get efitools first,
+https://github.com/mjg59/efitools
+https://help.rc.ufl.edu/doc/Installing_Perl_Modules
+
+# cd ~/
+# mkdir hda-contents
+
+Copy PK.crt, KEK.crt and *.efi file from efitools folder to ~/hda-contents:
+
+# cd ~/hda-contents
+# cp ~/efitools/KEK.crt ~/efitools/DB.crt ~/efitools/PK.crt ~/efitools/*.efi ./
+# ls ~/hda-contents
+
+DB.crt HelloWorld.efi HelloWorld-signed.efi KEK.crt LockDown.efi LockDown-signed.efi PK.crt
+
+Due to openSUSE certificate is PEM format, we need transfer to DER format for enroll to UEFI BIOS:
+
+openssl x509 -in KEK.crt -outform DER -out KEK.der
+openssl x509 -in PK.crt -outform DER -out PK.der
+openssl x509 -in DB.crt -outform DER -out DB.der
+
+cd ..
+
+qemu-system-x86_64 -pflash ../run-ovmf/bios-debug-securedboot.bin -hda fat:rw:hda-contents/ -net none -serial file:serial.log
+
+=================================================================================================
+Boot Command:
+
+qemu-system-x86_64 -L . --bios ../run-ovmf/bios-debug-securedboot.bin -net none -serial file:serial.log -global driver=cfi.pflash01,property=secure,value=on
+
+qemu-system-x86_64 -pflash ../run-ovmf/bios-debug-securedboot.bin -hda fat:rw:hda-contents/ -net none -serial file:serial.log
+=================================================================================================
+
+Fedora Secured boot steps:
+sudo apt-get install qemu-kvm ovmf
+mkdir ~/gnu/secureboot-vm
+cd ~/gnu/secureboot-vm
+sudo apt-get install rpm
+mkdir tmp-fedora-rpm
+cd tmp-fedora-rpm
+wget "https://archives.fedoraproject.org/pub/archive/fedora-secondary/updates/30/Everything/i386/Packages/e/edk2-ovmf-20190501stable-4.fc30.noarch.rpm"
+rpm2cpio edk2-ovmf-20190501stable-4.fc30.noarch.rpm | cpio -idmv
+cp ./usr/share/OVMF/UefiShell.iso ../
+cp ./usr/share/edk2/ovmf/OVMF_CODE.secboot.fd ../OVMF_CODE.fd
+cp ./usr/share/edk2/ovmf/OVMF_VARS.secboot.fd ../OVMF_VARS.fd
+
+cd ..
+rm -rf tmp-fedora-rpm
+
+qemu-system-x86_64 -machine q35,smm=on -global driver=cfi.pflash01,property=secure,value=on -drive if=pflash,format=raw,unit=0,file=OVMF_CODE.fd,readonly=on -drive if=pflash,format=raw,unit=1,file=OVMF_VARS.fd -L . -net none -serial file:serial.log  
+=================================================================================================
+
