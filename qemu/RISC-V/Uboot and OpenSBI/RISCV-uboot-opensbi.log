@@ -1,0 +1,48 @@
+=================================================================================================
+RISC-V U-boot + opensbi as payload
+=================================================================================================
+Build openSBI:
+git clone https://github.com/riscv/opensbi.git
+cd opensbi
+make PLATFORM=generic
+
+Build uboot:
+(Copy build/platform/qemu/virt/firmware/fw_dynamic.bin from openSBI to u-boot root directory)
+make qemu-riscv64_spl_defconfig
+make
+
+=================================================================================================
+Boot command:
+
+qemu-system-riscv64 -nographic -machine virt -bios spl/u-boot-spl \
+-device loader,file=u-boot.itb,addr=0x80200000
+
+=================================================================================================
+Boot Output:
+
+U-Boot SPL 2021.04-00906-g3a9aaefcaa (Apr 19 2021 - 11:34:16 +0800)
+Trying to boot from RAM
+
+
+U-Boot 2021.04-00906-g3a9aaefcaa (Apr 19 2021 - 11:34:16 +0800)
+
+CPU:   rv64imafdcsu
+Model: riscv-virtio,qemu
+DRAM:  128 MiB
+Loading Environment from nowhere... OK
+In:    uart@10000000
+Out:   uart@10000000
+Err:   uart@10000000
+Net:   No ethernet found.
+Hit any key to stop autoboot:  0 
+
+Device 0: unknown device
+scanning bus for devices...
+
+Device 0: unknown device
+No ethernet found.
+No ethernet found.
+=> 
+
+
+

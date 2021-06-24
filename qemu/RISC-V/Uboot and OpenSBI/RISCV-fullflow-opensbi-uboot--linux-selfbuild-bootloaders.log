@@ -1,0 +1,239 @@
+=================================================================================================
+
+Command (self build opensbi):
+./qemu-system-riscv64 -M virt -smp 4 -m 256M -nographic -bios opensbi/build/platform/generic/firmware/fw_jump.elf -kernel uboot-src/u-boot/u-boot.bin -device loader,file=linux_Image,addr=0x84000000 -drive file=linux_rootfs.img,format=raw,id=hd0 -device virtio-blk-device,drive=hd0
+=================================================================================================
+
+
+Version: 
+OpenSBI v0.9
+U-Boot 2021.04-00906-g3a9aaefcaa (Apr 19 2021 - 11:41:30 +0800)
+Linux version 5.4.0-00002-g52de729f2e23 (atish@jedi-01) (gcc version 8.2.0 (Buildroot 2018.11-rc2-00003-ga0787e9)) #78 SMP Wed Dec 4 23:37:06 PST 2019
+
+=================================================================================================
+
+Boot command for uboot:
+setenv bootargs "root=/dev/vda rw console=ttyS0 earlycon=sbi"
+cp.l ${fdtcontroladdr} ${fdt_addr_r} 0x10000
+booti ${kernel_addr_r} - ${fdt_addr_r}
+=================================================================================================
+
+
+Output:
+OpenSBI v0.9
+   ____                    _____ ____ _____
+  / __ \                  / ____|  _ \_   _|
+ | |  | |_ __   ___ _ __ | (___ | |_) || |
+ | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
+ | |__| | |_) |  __/ | | |____) | |_) || |_
+  \____/| .__/ \___|_| |_|_____/|____/_____|
+        | |
+        |_|
+
+Platform Name             : riscv-virtio,qemu
+Platform Features         : timer,mfdeleg
+Platform HART Count       : 4
+Firmware Base             : 0x80000000
+Firmware Size             : 124 KB
+Runtime SBI Version       : 0.3
+
+Domain0 Name              : root
+Domain0 Boot HART         : 2
+Domain0 HARTs             : 0*,1*,2*,3*
+Domain0 Region00          : 0x0000000002000000-0x000000000200ffff (I)
+Domain0 Region01          : 0x0000000080000000-0x000000008001ffff ()
+Domain0 Region02          : 0x0000000000000000-0xffffffffffffffff (R,W,X)
+Domain0 Next Address      : 0x0000000080200000
+Domain0 Next Arg1         : 0x0000000082200000
+Domain0 Next Mode         : S-mode
+Domain0 SysReset          : yes
+
+Boot HART ID              : 2
+Boot HART Domain          : root
+Boot HART ISA             : rv64imafdcsu
+Boot HART Features        : scounteren,mcounteren
+Boot HART PMP Count       : 16
+Boot HART PMP Granularity : 4
+Boot HART PMP Address Bits: 54
+Boot HART MHPM Count      : 0
+Boot HART MHPM Count      : 0
+Boot HART MIDELEG         : 0x0000000000000222
+Boot HART MEDELEG         : 0x000000000000b109
+
+
+U-Boot 2021.04-00906-g3a9aaefcaa (Apr 19 2021 - 11:41:30 +0800)
+
+CPU:   rv64imafdcsu
+Model: riscv-virtio,qemu
+DRAM:  256 MiB
+Loading Environment from nowhere... OK
+In:    uart@10000000
+Out:   uart@10000000
+Err:   uart@10000000
+Net:   No ethernet found.
+Hit any key to stop autoboot:  0 
+
+Device 0: QEMU VirtIO Block Device
+            Type: Hard Disk
+            Capacity: 60.0 MB = 0.0 GB (122880 x 512)
+... is now current device
+** No partition table - virtio 0 **
+scanning bus for devices...
+
+Device 0: unknown device
+No ethernet found.
+No ethernet found.
+=> <INTERRUPT>
+=> setenv bootargs "root=/dev/vda rw console=ttyS0 earlycon=sbi"
+=> cp.l ${fdtcontroladdr} ${fdt_addr_r} 0x10000
+=> booti ${kernel_addr_r} - ${fdt_addr_r}
+Moving Image from 0x84000000 to 0x80200000, end=80ab46fc
+## Flattened Device Tree blob at 88000000
+   Booting using the fdt blob at 0x88000000
+   Using Device Tree in place at 0000000088000000, end 00000000880045a1
+
+Starting kernel ...
+
+[    0.000000] OF: fdt: Ignoring memory range 0x80000000 - 0x80200000
+[    0.000000] Linux version 5.4.0-00002-g52de729f2e23 (atish@jedi-01) (gcc version 8.2.0 (Buildroot 2018.11-rc2-00003-ga0787e9)) #78 SMP Wed Dec 4 23:37:06 PST 2019
+[    0.000000] earlycon: sbi0 at I/O port 0x0 (options '')
+[    0.000000] printk: bootconsole [sbi0] enabled
+[    0.000000] initrd not found or empty - disabling initrd
+[    0.000000] Zone ranges:
+[    0.000000]   DMA32    [mem 0x0000000080200000-0x000000008fffffff]
+[    0.000000]   Normal   empty
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000080200000-0x000000008fffffff]
+[    0.000000] Zeroed struct page in unavailable ranges: 512 pages
+[    0.000000] Initmem setup node 0 [mem 0x0000000080200000-0x000000008fffffff]
+[    0.000000] software IO TLB: mapped [mem 0x8abfa000-0x8ebfa000] (64MB)
+[    0.000000] elf_hwcap is 0x112d
+[    0.000000] percpu: Embedded 17 pages/cpu s30680 r8192 d30760 u69632
+[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 64135
+[    0.000000] Kernel command line: root=/dev/vda rw console=ttyS0 earlycon=sbi
+[    0.000000] Dentry cache hash table entries: 32768 (order: 6, 262144 bytes, linear)
+[    0.000000] Inode-cache hash table entries: 16384 (order: 5, 131072 bytes, linear)
+[    0.000000] Sorting __ex_table...
+[    0.000000] mem auto-init: stack:off, heap alloc:off, heap free:off
+[    0.000000] Memory: 164580K/260096K available (6023K kernel code, 391K rwdata, 1955K rodata, 217K init, 307K bss, 95516K reserved, 0K cma-reserved)
+[    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
+[    0.000000] rcu: Hierarchical RCU implementation.
+[    0.000000] rcu: 	RCU restricting CPUs from NR_CPUS=32 to nr_cpu_ids=4.
+[    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 25 jiffies.
+[    0.000000] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=4
+[    0.000000] NR_IRQS: 0, nr_irqs: 0, preallocated irqs: 0
+[    0.000000] plic: mapped 53 interrupts with 4 handlers for 8 contexts.
+[    0.000000] riscv_timer_init_dt: Registering clocksource cpuid [0] hartid [2]
+[    0.000000] clocksource: riscv_clocksource: mask: 0xffffffffffffffff max_cycles: 0x24e6a1710, max_idle_ns: 440795202120 ns
+[    0.000265] sched_clock: 64 bits at 10MHz, resolution 100ns, wraps every 4398046511100ns
+[    0.011997] Console: colour dummy device 80x25
+[    0.016790] Calibrating delay loop (skipped), value calculated using timer frequency.. 20.00 BogoMIPS (lpj=40000)
+[    0.023398] pid_max: default: 32768 minimum: 301
+[    0.029756] Mount-cache hash table entries: 512 (order: 0, 4096 bytes, linear)
+[    0.031871] Mountpoint-cache hash table entries: 512 (order: 0, 4096 bytes, linear)
+[    0.107612] rcu: Hierarchical SRCU implementation.
+[    0.129404] smp: Bringing up secondary CPUs ...
+[    1.250523] CPU1: failed to come online
+[    2.320975] CPU2: failed to come online
+[    3.396417] CPU3: failed to come online
+[    3.397357] smp: Brought up 1 node, 1 CPU
+[    3.415733] devtmpfs: initialized
+[    3.430743] random: get_random_u32 called from bucket_table_alloc.isra.29+0x4e/0x160 with crng_init=0
+[    3.437923] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
+[    3.448266] futex hash table entries: 1024 (order: 4, 65536 bytes, linear)
+[    3.461649] NET: Registered protocol family 16
+[    3.567169] vgaarb: loaded
+[    3.570058] SCSI subsystem initialized
+[    3.577555] usbcore: registered new interface driver usbfs
+[    3.583600] usbcore: registered new interface driver hub
+[    3.586532] usbcore: registered new device driver usb
+[    3.610154] clocksource: Switched to clocksource riscv_clocksource
+[    3.681391] NET: Registered protocol family 2
+[    3.691933] tcp_listen_portaddr_hash hash table entries: 256 (order: 0, 4096 bytes, linear)
+[    3.700059] TCP established hash table entries: 2048 (order: 2, 16384 bytes, linear)
+[    3.705157] TCP bind hash table entries: 2048 (order: 3, 32768 bytes, linear)
+[    3.719653] TCP: Hash tables configured (established 2048 bind 2048)
+[    3.736320] UDP hash table entries: 256 (order: 1, 8192 bytes, linear)
+[    3.737787] UDP-Lite hash table entries: 256 (order: 1, 8192 bytes, linear)
+[    3.757291] NET: Registered protocol family 1
+[    3.828381] RPC: Registered named UNIX socket transport module.
+[    3.847076] RPC: Registered udp transport module.
+[    3.848069] RPC: Registered tcp transport module.
+[    3.848824] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[    3.851327] PCI: CLS 0 bytes, default 64
+[    3.867133] workingset: timestamp_bits=62 max_order=16 bucket_order=0
+[    3.899794] NFS: Registering the id_resolver key type
+[    3.904341] Key type id_resolver registered
+[    3.906511] Key type id_legacy registered
+[    3.907908] nfs4filelayout_init: NFSv4 File Layout Driver Registering...
+[    3.911601] 9p: Installing v9fs 9p2000 file system support
+[    3.955543] NET: Registered protocol family 38
+[    3.994354] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 253)
+[    4.015955] io scheduler mq-deadline registered
+[    4.017355] io scheduler kyber registered
+[    4.021142] pci-host-generic 30000000.pci: host bridge /soc/pci@30000000 ranges:
+[    4.024486] pci-host-generic 30000000.pci:    IO 0x03000000..0x0300ffff -> 0x00000000
+[    4.032947] pci-host-generic 30000000.pci:   MEM 0x40000000..0x7fffffff -> 0x40000000
+[    4.041029] pci-host-generic 30000000.pci: ECAM at [mem 0x30000000-0x3fffffff] for [bus 00-ff]
+[    4.051526] pci-host-generic 30000000.pci: PCI host bridge to bus 0000:00
+[    4.054522] pci_bus 0000:00: root bus resource [bus 00-ff]
+[    4.055738] pci_bus 0000:00: root bus resource [io  0x0000-0xffff]
+[    4.057309] pci_bus 0000:00: root bus resource [mem 0x40000000-0x7fffffff]
+[    4.068577] pci 0000:00:00.0: [1b36:0008] type 00 class 0x060000
+[    4.450970] Serial: 8250/16550 driver, 4 ports, IRQ sharing disabled
+[    4.469360] printk: console [ttyS0] disabled
+[    4.474051] 10000000.uart: ttyS0 at MMIO 0x10000000 (irq = 10, base_baud = 230400) is a 16550A
+[    4.480388] printk: console [ttyS0] enabled
+[    4.480388] printk: console [ttyS0] enabled
+[    4.483808] printk: bootconsole [sbi0] disabled
+[    4.483808] printk: bootconsole [sbi0] disabled
+[    4.491190] [drm] radeon kernel modesetting enabled.
+[    4.521262] loop: module loaded
+[    4.532278] virtio_blk virtio0: [vda] 122880 512-byte logical blocks (62.9 MB/60.0 MiB)
+[    4.570659] libphy: Fixed MDIO Bus: probed
+[    4.572504] e1000e: Intel(R) PRO/1000 Network Driver - 3.2.6-k
+[    4.573151] e1000e: Copyright(c) 1999 - 2015 Intel Corporation.
+[    4.574428] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+[    4.576740] ehci-pci: EHCI PCI platform driver
+[    4.579010] ehci-platform: EHCI generic platform driver
+[    4.579835] ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+[    4.580327] ohci-pci: OHCI PCI platform driver
+[    4.580857] ohci-platform: OHCI generic platform driver
+[    4.582003] usbcore: registered new interface driver uas
+[    4.583051] usbcore: registered new interface driver usb-storage
+[    4.584658] mousedev: PS/2 mouse device common for all mice
+[    4.587897] usbcore: registered new interface driver usbhid
+[    4.588832] usbhid: USB HID core driver
+[    4.600013] NET: Registered protocol family 10
+[    4.612329] Segment Routing with IPv6
+[    4.614197] sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
+[    4.618558] NET: Registered protocol family 17
+[    4.621263] 9pnet: Installing 9P2000 support
+[    4.622380] Key type dns_resolver registered
+[    4.722345] EXT4-fs (vda): recovery complete
+[    4.730184] EXT4-fs (vda): mounted filesystem with ordered data mode. Opts: (null)
+[    4.732001] VFS: Mounted root (ext4 filesystem) on device 254:0.
+[    4.736929] devtmpfs: mounted
+[    4.780295] Freeing unused kernel memory: 216K
+[    4.781108] This architecture does not have kernel memory protection.
+[    4.783434] Run /sbin/init as init process
+[    5.056142] EXT4-fs (vda): re-mounted. Opts: (null)
+Starting syslogd: OK
+Starting klogd: OK
+Running sysctl: OK
+Initializing random number generator: OK
+Saving random seed: [    6.898227] random: dd: uninitialized urandom read (512 bytes read)
+OK
+Starting network: OK
+Starting dhcpcd...
+no valid interfaces found
+no interfaces have a carrier
+forked to background, child pid 108
+[   11.006737] random: crng init done
+Starting sshd: OK
+
+Welcome to Buildroot
+buildroot login: root
+# QEMU: Terminated
+

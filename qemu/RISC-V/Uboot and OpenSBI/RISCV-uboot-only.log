@@ -1,0 +1,35 @@
+=================================================================================================
+RISC-V U-boot only boot, no payload
+=================================================================================================
+Build command:
+
+make qemu-riscv64_defconfig
+make
+=================================================================================================
+Boot command:
+
+./qemu-system-riscv64 -nographic -machine virt -bios uboot-src/u-boot/u-boot
+
+=================================================================================================
+Boot Output:
+
+U-Boot 2021.04-00906-g3a9aaefcaa (Apr 19 2021 - 11:26:22 +0800)
+
+CPU:   rv64imafdcsu
+Model: riscv-virtio,qemu
+DRAM:  128 MiB
+Loading Environment from nowhere... OK
+In:    uart@10000000
+Out:   uart@10000000
+Err:   uart@10000000
+Net:   No ethernet found.
+Hit any key to stop autoboot:  0 
+
+Device 0: unknown device
+scanning bus for devices...
+
+Device 0: unknown device
+No ethernet found.
+No ethernet found.
+=> 
+
