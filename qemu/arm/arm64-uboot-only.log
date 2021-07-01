@@ -1,0 +1,37 @@
+=================================================================================================
+source:
+
+https://github.com/ARM-software/u-boot/blob/master/doc/README.qemu-arm
+=================================================================================================
+Build Command:
+
+export CROSS_COMPILE=aarch64-linux-gnu-
+make qemu_arm64_defconfig
+make
+=================================================================================================
+Boot Command:
+
+qemu-system-aarch64 -machine virt -cpu cortex-a57 -bios u-boot.bin \
+ -device usb-ehci,id=ehci \
+=================================================================================================
+Boot log from console:
+
+U-Boot 2018.09-00427-g4024652143 (Apr 20 2021 - 11:22:05 +0800)
+
+DRAM:  128 MiB
+In:    pl011@9000000
+Out:   pl011@9000000
+Err:   pl011@9000000
+Net:   No ethernet found.
+Hit any key to stop autoboot:  0 
+scanning bus for devices...
+
+Device 0: unknown device
+starting USB...
+USB0:   USB EHCI 1.00
+scanning bus 0 for devices... 1 USB Device(s) found
+No ethernet found.
+No ethernet found.
+=> 
+
+
