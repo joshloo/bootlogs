@@ -1,0 +1,189 @@
+============= Intel Slim Bootloader STAGE1A =============
+SBID: SB_QEMU
+ISVN: 001
+IVER: 000.005.001.001.01425
+SVER: 46E90B83FD6904DA-dirty
+FDBG: BLD(D IA32) FSP(R)
+FSPV: ID($QEMFSP$) REV(00001000)
+Loader global data @ 0x00001C40
+Run  STAGE1A @ 0x00070000
+Load STAGE1B @ 0x00040000
+
+============= Intel Slim Bootloader STAGE1B =============
+Host Bridge Device ID:0x29C0
+Board ID:0x1 - Loading QEMU!
+QEMU Flash: Attempting flash detection at FFC00000
+QemuFlashDetected => FD behaves as FLASH
+QemuFlashDetected => Yes
+SpiInstance = 0000E470
+Variable region: 0xFFC80000:0x2000
+  SPI WRITE: FFC80010  00000004
+  SPI WRITE: FFC80011  00000001
+  SPI WRITE: FFC80014  00000008
+  SPI WRITE: FFC8001C  00000004
+  SPI WRITE: FFC80011  00000001
+Loading Component KEYH:_HS_
+Registering container KEYH
+Append public key hash into store: Success
+Registering container SETP
+Load EXT CFG Data @ 0x0000EB54:0x0158 ... Success
+BOOT: BP0
+MODE: 0
+BoardID: 0x01
+PlatformName: QEMU_01
+Memory Init
+Found Config TAG: 0x180 @ 0x0000ECCC
+  MemCfg.Test1=11223344, MemCfg.Test2=11223346
+Found Config TAG: 0x200 @ 0x0000ECDC
+  SilCfg.Test1=11223347, SilCfg.Test2=04030201
+Call FspMemoryInit ... Success
+Loader global data @ 0x06EBFD70
+Load page table from memory @ 0x06B74000
+Remapping Stage to 0x06B77000
+    FSP Resource HOB Range        Type       Owner
+================================= ==== ====================================
+0000000000000000-00000000000A0000  00  00000000-0000-0000-0000-000000000000
+00000000000A0000-0000000000100000  05  00000000-0000-0000-0000-000000000000
+0000000000100000-0000000006F00000  00  00000000-0000-0000-0000-000000000000
+0000000006F00000-0000000007000000  05  69A79759-1373-4367-A6C4-C7F59EFD986E
+0000000007000000-0000000008000000  05  D038747C-D00C-4980-B319-490199A47D55
+
+Switch to memory stack @ 0x06EFFF00
+Stage1 stack: 0x2000 (0x980 used)
+Stage1 heap: 0xE000 (0x2314 used)
+Call FspTempRamExit ... Success
+Memory FSP @ 0x06F00000
+Memory TOP @ 0x06B74000
+Loading Component FLMP:SG02
+Loaded STAGE2 @ 0x06E55000
+
+============= Intel Slim Bootloader STAGE2 =============
+Unmapping Stage
+Board GPIO Init
+Get base platform GPIO table from board ID 0
+Programming 7 GPIO entries
+GPIO GPP_A00 DATA: 0x00000000 0x00000010
+GPIO GPP_A02 DATA: 0x80000002 0x00000012
+GPIO GPP_A03 DATA: 0xC0000003 0x00000013
+GPIO GPP_A04 DATA: 0x01000004 0x00000014
+GPIO GPP_A05 DATA: 0x41000005 0x00000015
+GPIO GPP_A06 DATA: 0x81000006 0x00000016
+GPIO GPP_A07 DATA: 0xC1000007 0x00000017
+Test variable services
+  SPI WRITE: FFC80020  00000004
+  SPI WRITE: FFC80021  00000001
+  SPI WRITE: FFC80024  00000008
+  SPI WRITE: FFC8002C  00000004
+  SPI WRITE: FFC80011  00000001
+  SPI WRITE: FFC80021  00000001
+  SPI WRITE: FFC80011  00000001
+Loading Component IPFW:TST3
+Registering container IPFW
+Load IP firmware @ 0:0x0 - Bad Buffer Size
+Silicon Init
+Select VBT ImageId 0x00000001
+Call FspSiliconInit ...
+Success
+Graphics Info: 800 x 600 x 32 @ 0x80000000
+MEM: 0000000000000000 00000000000A0000 00 1
+MEM: 00000000000A0000 0000000000060000 00 2
+MEM: 0000000000100000 0000000006A00000 00 1
+MEM: 0000000006B00000 0000000000004000 01 2
+MEM: 0000000006B04000 0000000000068000 00 3
+MEM: 0000000006B6C000 0000000000008000 00 4
+MEM: 0000000006B74000 000000000038C000 00 2
+MEM: 0000000006F00000 0000000000100000 00 2
+MEM: 0000000007000000 0000000001000000 00 2
+MEM: 00000000FFC00000 0000000000400000 00 2
+MP Init (Wakeup)
+MP Init (Run)
+Detected 1 CPU threads
+ CPU  0 APIC ID: 0
+SMM rebase done on 1 CPUs
+PCI Enum
+Call FspNotifyPhase(20) ... Success
+ACPI Init
+Publish ACPI table: FACP
+Publish ACPI table: HPET
+Publish ACPI table: APIC
+Publish ACPI table: MCFG
+Publish ACPI table: FPDT
+Publish ACPI table: BGRT
+Publish ACPI table: TEST
+ACPI Ret: Success
+Enable SMRR
+Loading Payload ID PYLD
+Loading Component FLMP:PYLD
+Load Payload ID 0x00000000 @ 0x06CB7000
+PE32 Format Payload
+HOB @ 0x06EC0000
+Created 4 OS boot options (Current: 16)
+Stage2 stack: 0x40000 (stack used 0x4D0, HOB used 0xDA8, 0x3ED88 free)
+Stage2 heap: 0x34C000 (0x209000 used, 0x143000 free)
+Payload entry: 0x06CB7260
+Jump to payload
+
+
+Payload startup
+ACPI PmTimer Base: 0x408
+PCI Express  Base: 0xE0000000
+
+
+====================Os Loader====================
+
+
+Press any key within 1 second(s) to enter the command shell
+
+Shell>
+
+Shell> perf
+Loader Performance Info
+=======================
+
+ Id   | Time (ms)  | Delta (ms)
+------+------------+------------
+ 1000 |       5 ms |       5 ms
+ 1010 |      24 ms |      19 ms
+ 1040 |      27 ms |       3 ms
+ 1060 |      40 ms |      13 ms
+ 1080 |     154 ms |     114 ms
+ 10B0 |     157 ms |       3 ms
+ 2000 |     158 ms |       1 ms
+ 2020 |     521 ms |     363 ms
+ 2030 |     638 ms |     117 ms
+ 2040 |     798 ms |     160 ms
+ 2050 |     859 ms |      61 ms
+ 2060 |     881 ms |      22 ms
+ 2070 |     881 ms |       0 ms
+ 2080 |     913 ms |      32 ms
+ 2090 |     919 ms |       6 ms
+ 20A0 |     919 ms |       0 ms
+ 20B0 |     924 ms |       5 ms
+ 20C0 |     924 ms |       0 ms
+ 20D0 |     925 ms |       1 ms
+ 3000 |     970 ms |      45 ms
+ 3010 |    1347 ms |     377 ms
+ 3020 |    1350 ms |       3 ms
+ 3030 |    1460 ms |     110 ms
+ 3040 |    1462 ms |       2 ms
+ 3050 |    1644 ms |     182 ms
+ 3060 |    1668 ms |      24 ms
+ 3080 |    1713 ms |      45 ms
+ 3090 |    1713 ms |       0 ms
+ 30A0 |    1775 ms |      62 ms
+ 30B0 |    1775 ms |       0 ms
+ 30C0 |    1785 ms |      10 ms
+ 30D0 |    1899 ms |     114 ms
+ 30E0 |    1903 ms |       4 ms
+ 3100 |    1929 ms |      26 ms
+ 3110 |    1935 ms |       6 ms
+ 3120 |    1955 ms |      20 ms
+ 3130 |    1956 ms |       1 ms
+ 3140 |    2076 ms |     120 ms
+ 3150 |    2077 ms |       1 ms
+ 31A0 |    2083 ms |       6 ms
+ 31B0 |    2092 ms |       9 ms
+ 31F0 |    2092 ms |       0 ms
+------+------------+------------
+
+Shell>
